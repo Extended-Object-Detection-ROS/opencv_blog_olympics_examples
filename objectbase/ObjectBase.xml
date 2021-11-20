@@ -9,7 +9,7 @@
 
     <Attribute Name="SSD_MNv1" Type="Dnn" framework="tensorflow" weights="ssd_mobilenet_v1_coco_2017_11_17/frozen_inference_graph.pb" config="ssd_mobilenet_v1_coco_2017_11_17/config.pbtxt" labels="ssd_mobilenet_v1_coco_2017_11_17/mscoco_label_map.pbtxt" inputWidth="300" inputHeight="300" Probability="0.1" forceCuda="0"/>
 
-   <Attribute Name="COCO_Dnn_cup" Type="ExtractedInfoString" field="COCO_Dnn:class_label" allowed="cup" forbidden="" Weight="0"/>
+   <Attribute Name="COCO_Dnn_cup" Type="ExtractedInfoString" field="SSD_MNv1:class_label" allowed="cup" forbidden="" Weight="0"/>
 
    <Attribute Name="COCO_Dnn_person" Type="ExtractedInfoID" field="FRCNN_RN50:class_id" allowed="0" forbidden="" Weight="0"/>
 
@@ -35,8 +35,17 @@
         <Attribute Type="Check">COCO_Dnn_motorcycle</Attribute>
     </SimpleObject>
 
-   <SimpleObject Name="Cup" ID="5" MergingPolicy="Union">              
-        <Attribute Type="Detect">FRCNN_RN50</Attribute>
+   <SimpleObject Name="Cup" ID="10">              
+        <Attribute Type="Detect">SSD_MNv1</Attribute>
+        <Attribute Type="Check">COCO_Dnn_cup</Attribute>
+    </SimpleObject>
+
+   <SimpleObject Name="Reds" ID="11">              
+        <Attribute Type="Detect">HSV_red</Attribute>
+    </SimpleObject>
+
+   <SimpleObject Name="RedCup" ID="12" MergingPolicy="Union">              
+        <Attribute Type="Detect">SSD_MNv1</Attribute>
         <Attribute Type="Check">COCO_Dnn_cup</Attribute>
         <Attribute Type="Detect">HSV_red</Attribute>
     </SimpleObject>
