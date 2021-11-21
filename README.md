@@ -12,5 +12,7 @@ cmake ..
 make
 ./eod_simple_example
 ```
+You will get image with recognized red cup.
+
 # Other tests
 Please install QT GUI https://github.com/Extended-Object-Detection-ROS/qt_gui_eod
