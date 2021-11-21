@@ -5,28 +5,25 @@
     
     <Attribute Name="HSV_red" Type="HSVColor" Hmin="0" Hmax="11" Smin="100" Smax="255" Vmin="10" Vmax="255"/>
 
-    <Attribute Name="FRCNN_RN50" Type="Dnn" framework="tensorflow" weights="faster_rcnn_resnet50_coco_2018_01_28/frozen_inference_graph.pb" config="faster_rcnn_resnet50_coco_2018_01_28/config.pbtxt" labels="faster_rcnn_resnet50_coco_2018_01_28/mscoco_label_map.pbtxt" inputWidth="300" inputHeight="300" Probability="0.1" forceCuda="0"/>
-
     <Attribute Name="SSD_MNv1" Type="Dnn" framework="tensorflow" weights="ssd_mobilenet_v1_coco_2017_11_17/frozen_inference_graph.pb" config="ssd_mobilenet_v1_coco_2017_11_17/config.pbtxt" labels="ssd_mobilenet_v1_coco_2017_11_17/mscoco_label_map.pbtxt" inputWidth="300" inputHeight="300" Probability="0.1" forceCuda="0"/>
 
    <Attribute Name="COCO_Dnn_cup" Type="ExtractedInfoString" field="SSD_MNv1:class_label" allowed="cup" forbidden="" Weight="0"/>
 
-   <Attribute Name="COCO_Dnn_person" Type="ExtractedInfoID" field="FRCNN_RN50:class_id" allowed="0" forbidden="" Weight="0"/>
-
-
    <Attribute Name="COCO_Dnn_motorcycle" Type="ExtractedInfoString" field="SSD_MNv1:class_label" allowed="motorcycle" forbidden="" Weight="0"/>
+
+   <Attribute Name="COCO_Dnn_person" Type="ExtractedInfoString" field="SSD_MNv1:class_label" allowed="person" forbidden="" Weight="0"/>
     
 </AttributeLib>
 
 
 <SimpleObjectBase>  
 
-    <SimpleObject Name="COCO_dnn_object" ID="1">              
-        <Attribute Type="Detect">FRCNN_RN50</Attribute>
+    <SimpleObject Name="COCO_dnn_object" ID="1" Probability="0.5">              
+        <Attribute Type="Detect">SSD_MNv1</Attribute>
     </SimpleObject>
 
     <SimpleObject Name="Person" ID="2" Probability="0.4">              
-        <Attribute Type="Detect">FRCNN_RN50</Attribute>
+        <Attribute Type="Detect">SSD_MNv1</Attribute>
         <Attribute Type="Check">COCO_Dnn_person</Attribute>
     </SimpleObject>
 
@@ -65,8 +62,6 @@
    <RelationShip Type="LogicAnd" Name="intersects" A="not_in" B="not_out"/>
    <RelationShip Type="LogicAnd" Name="mount" A="up" B="intersects"/>
 
-   <RelationShip Type="LogicNot" Name="not_mount" A="mount"/>
-
  <RelationShip Type="SpaceLeft" Name="left"/>
  <RelationShip Type="SpaceRight" Name="right"/>
 
@@ -76,15 +71,8 @@
 
 
 <ComplexObjectBase>
-   
-    <!--ComplexObject ID="1" Name="Rider">
-        <SimpleObject Class="Person" InnerName="Person"/>
-        <SimpleObject Class="Horse" InnerName="Horse"/>
-        
-        <Relation Obj1="Person" Obj2="Horse" Relationship="mount"/>        
-    </ComplexObject-->
 
-    <ComplexObject ID="2" Name="Biker" Probability="0.7">
+    <ComplexObject ID="2" Name="Biker" Probability="0.5">
         <SimpleObject Class="Person" InnerName="Person"/>
         <SimpleObject Class="Motorcycle" InnerName="Motorcycle"/>
         
@@ -93,7 +81,7 @@
         <Filter Type="NMS" threshold="0.5"/> 
     </ComplexObject>
 
-    <ComplexObject ID="3" Name="TwoPersonsOnMotorcycle">
+    <ComplexObject ID="3" Name="TwoPersonsOnMotorcycle" Mode="Hard">
         <SimpleObject Class="Person" InnerName="Person1"/>
         <SimpleObject Class="Person" InnerName="Person2"/>
         <SimpleObject Class="Motorcycle" InnerName="Motorcycle"/>
@@ -104,20 +92,7 @@
         <Relation Obj1="Person1" Obj2="Person2" Relationship="not_same"/>        
         
 
-        <Filter Type="NMS" threshold="0.5"/>
+        <Filter Type="NMS" threshold="0.75"/>
     </ComplexObject>
-    
-    <!--ComplexObject ID="4" Name="BikerAlone" Mode="Soft" Probability="0.1">
-        <SimpleObject Class="Person" InnerName="Rider"/>
-        <SimpleObject Class="Person" InnerName="ExtraRider" Weight="0"/>
-        <SimpleObject Class="Motorcycle" InnerName="Motorcycle"/>
-        
-        <Relation Obj1="Rider" Obj2="Motorcycle" Relationship="mount"/>        
-        <Relation Obj1="ExtraRider" Obj2="Motorcycle" Relationship="not_mount" Weight="0"/>        
-        <Relation Obj1="ExtraRider" Obj2="Rider" Relationship="not_same" Weight="0"/>       
-
-        <Filter Type="NMS" threshold="0.5"/> 
-        
-    </ComplexObject-->
 
 </ComplexObjectBase>
