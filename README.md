@@ -18,5 +18,5 @@ You will get image with recognized red cup.
 Please install QT GUI https://github.com/Extended-Object-Detection-ROS/qt_gui_eod  
 Open object base at `objectbase/ObjectBase.xml`  
 Open image from `images`  
-Select\unselect objects ti detect  
+Select\unselect objects to detect  
 Click `Detect!` button  
