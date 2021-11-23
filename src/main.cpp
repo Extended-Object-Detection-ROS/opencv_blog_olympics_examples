@@ -1,5 +1,5 @@
 /*
- * Simple example of Extended Object Detection main functionallity
+ * Simple example of Extended Object Detection main functionality
  */
 
 #include <stdio.h>
