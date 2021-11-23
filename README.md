@@ -1,7 +1,7 @@
 # opencv_blog_olympics_examples
 Object base, simple application and test images for [OpenCV Blog Olympics](https://learnopencv.com/blog-olympics/) contest.  
 This repository is a part of [Extended Object Detection](https://github.com/Extended-Object-Detection-ROS) project.  
-For project documentation please [follow](https://github.com/Extended-Object-Detection-ROS/wiki_english/wiki).  
+For project documentation please [follow link](https://github.com/Extended-Object-Detection-ROS/wiki_english/wiki).  
 
 # Install and run test code
 Tested on Linux Kubuntu 20.04 LTS with installed OpenCV 4.2.0
